@@ -11,7 +11,7 @@ function OnResponse(response) {
     response.on('end', function() {
         var coins = JSON.parse(data);
         var count = coins.length;
-        var sql = "INSERT INTO `coins` (`coins`, `price`, `h24`, `mkt_cap`)  VALUES ";
+        var sql = "INSERT INTO `coinlist` (`sign`, `symbol`, `name`)  VALUES ";
 
             for(var i = 0;i < count; i++ )
             {
@@ -26,23 +26,22 @@ function OnResponse(response) {
 
         sql = sql.substring(0, sql.length - 2);
         console.log(sql);
-        //var con = mysql.createConnection({
-        //    host: "localhost",
-        //    user: "root",
-        //    password: "",
-        //    database: "node"
-        //});
-        //con.connect(function(err) {
-        //    if (err) throw err;
-        //    console.log("Connected!");
-        //
-        //    con.query(sql, function (err, result) {
-        //        if (err) throw err;
-        //
-        //        console.log(count +" record inserted");
-        //        con.end();
-        //    });
-        //});
+        var con = mysql.createConnection({
+            host: "node-js.ca4faffwkqbi.us-east-2.rds.amazonaws.com",
+            user: "root",
+            password: "123456789",
+            database: "node"
+        });
+        con.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!");
+
+            con.query(sql, function (err, result) {
+                if (err) throw err;
+                console.log(count +" record inserted");
+                con.end();
+            });
+        });
 
     });
 }
